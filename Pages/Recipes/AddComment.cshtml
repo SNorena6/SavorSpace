@@ -1,0 +1,25 @@
+@page
+@model SavorSpace.Pages.Recipes.AddCommentModel
+
+<h2>Add Comment for @Model.Recipe?.Name</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="NewComment.CommentText" class="form-label"></label>
+        <textarea asp-for="NewComment.CommentText" class="form-control"></textarea>
+        <span asp-validation-for="NewComment.CommentText" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NewComment.Score" class="form-label"></label>
+        <input asp-for="NewComment.Score" type="number" class="form-control" min="1" max="5" />
+        <span asp-validation-for="NewComment.Score" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit Comment</button>
+    <a asp-page="./Details" asp-route-id="@Model.RecipeId" class="btn btn-secondary ms-2">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

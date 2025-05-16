@@ -1,0 +1,71 @@
+@page "{id:int}"
+@model SavorSpace.Pages.Recipes.DetailsModel
+@{
+    ViewData["Title"] = "Recipe Details";
+}
+
+<h1>@Model.Recipe?.Name</h1>
+
+@if (Model.Recipe == null)
+{
+    <div class="alert alert-warning">
+        Recipe not found.
+    </div>
+}
+else
+{
+    <section>
+        @if (!string.IsNullOrEmpty(Model.Recipe.ImageUrl))
+        {
+            <img src="@Model.Recipe.ImageUrl" alt="@Model.Recipe.Name" style="max-width: 400px; height: auto;" />
+        }
+
+        <h3>Title</h3>
+        <p>@Model.Recipe.Title</p>
+
+        <h3>Description</h3>
+        <p>@Model.Recipe.Title</p>
+
+        <h3>Created On</h3>
+        <p>@Model.Recipe.CreatedAt.ToLocalTime().ToString("MMMM dd, yyyy")</p>
+
+        <h3>Ingredients</h3>
+        <ul>
+            @if (!string.IsNullOrEmpty(Model.Recipe.Ingredients))
+            {
+                foreach (var ingredient in Model.Recipe.Ingredients.Split('\n'))
+                {
+                    <li>@ingredient</li>
+                }
+            }
+            else
+            {
+                <li>No ingredients listed.</li>
+            }
+        </ul>
+
+        <h3>Instructions</h3>
+        <p>@Model.Recipe.Instructions</p>
+
+        <h3>Comments (@Model.Recipe.Comments?.Count ?? 0)</h3>
+        @if (Model.Recipe.Comments != null && Model.Recipe.Comments.Any())
+        {
+            <ul>
+                @foreach (var comment in Model.Recipe.Comments)
+                {
+                    <li>
+                        <strong>Score: @comment.Score / 5</strong>
+                        <br />
+                        @comment.CommentText
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No comments yet.</p>
+        }
+    </section>
+}
+
+<a asp-page="/Recipes/Index" class="btn btn-secondary mt-3">Back to Recipes List</a>
